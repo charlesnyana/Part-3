@@ -25,7 +25,7 @@ public class Thief : Villager
         
         if (dash)
         {
-            speed = 15;
+            speed = 10;
             movement = destination - (Vector2) transform.position;
 
             if (movement.magnitude < 0.1) 
@@ -41,6 +41,7 @@ public class Thief : Villager
     {
         
         dash = true;
+        destination = destination = Camera.main.ScreenToWorldPoint(Input.mousePosition); // updates on right clicks for this attack only.
         base.Attack();
         Instantiate(daggerPrefab, spawnPointLeft.position, spawnPointLeft.rotation);
         Instantiate(daggerPrefab, spawnPointRight.position, spawnPointRight.rotation);
