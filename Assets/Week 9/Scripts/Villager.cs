@@ -9,7 +9,7 @@ public class Villager : MonoBehaviour
     Animator animator;
 
     bool clickingOnSelf;
-    bool isSelected;
+    protected bool isSelected;
     public GameObject highlight;
 
     Vector2 destination;
