@@ -10,18 +10,33 @@ public class Thief : Villager
 
     Vector3 dashPosition;
     public Vector3 dashDistance;
-    float baseSpeed;
-    bool dash = false;
+    public float baseSpeed;
+    bool dash;
+
+    protected override void Start()
+    {
+        base.Start();
+        dash = false;
+        baseSpeed = speed;
+    }
 
     protected override void FixedUpdate()
     {
-        baseSpeed = speed; //stores base value
+        
         if (dash)
         {
-            speed = baseSpeed * 3;
+            Debug.Log("dash ongoing.");
+            speed = 15;
+            movement = destination - (Vector2) transform.position;
+
+            if (movement.magnitude < 0.1) 
+            {
+                Debug.Log("dash ended.");
+                dash = false;
+                speed = baseSpeed;
+            }
         }
         base.FixedUpdate();
-
     }
 
     protected override void Attack()
@@ -31,10 +46,6 @@ public class Thief : Villager
         base.Attack();
         Instantiate(daggerPrefab, spawnPointLeft.position, spawnPointLeft.rotation);
         Instantiate(daggerPrefab, spawnPointRight.position, spawnPointRight.rotation);
-        dash = false;
-
-
-        destination = transform.position;
     }
     public override ChestType CanOpen()
     {

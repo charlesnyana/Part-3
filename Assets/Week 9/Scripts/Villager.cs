@@ -16,7 +16,7 @@ public class Villager : MonoBehaviour
     protected Vector2 movement;
     protected float speed = 3;
 
-    void Start()
+    protected virtual void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
