@@ -25,13 +25,11 @@ public class Thief : Villager
         
         if (dash)
         {
-            Debug.Log("dash ongoing.");
             speed = 15;
             movement = destination - (Vector2) transform.position;
 
             if (movement.magnitude < 0.1) 
             {
-                Debug.Log("dash ended.");
                 dash = false;
                 speed = baseSpeed;
             }
