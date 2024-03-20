@@ -15,11 +15,13 @@ public class Villager : MonoBehaviour
     protected Vector2 destination;
     protected Vector2 movement;
     protected float speed = 3;
+    protected float baseSpeed;
 
     protected virtual void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+        baseSpeed = speed;
         destination = transform.position;
         Selected(false);
     }
@@ -58,6 +60,7 @@ public class Villager : MonoBehaviour
         if (movement.magnitude < 0.1)
         {
             movement = Vector2.zero;
+            speed = baseSpeed;
         }
 
         rb.MovePosition(rb.position + movement.normalized * speed * Time.deltaTime);

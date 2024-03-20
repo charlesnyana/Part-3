@@ -8,7 +8,6 @@ public class CharacterControl : MonoBehaviour
 {
     public GameObject textUI;
     static TextMeshProUGUI typeText;
-    static string villagerType;
 
     private void Start()
     {
@@ -25,10 +24,8 @@ public class CharacterControl : MonoBehaviour
         }
         SelectedVillager = villager;
         SelectedVillager.Selected(true);
-        if (villager.ToString() == "Merchant (Merchant)") villagerType = "Merchant";
-        if (villager.ToString() == "Archer (Archer)") villagerType = "Archer";
-        if (villager.ToString() == "Thief (Thief)") villagerType = "Thief";
-        typeText.text = villagerType;
+ 
+        typeText.text = villager.GetType().ToString(); //added Kit's reccommendation from in-class assessment
     }
     
 }
