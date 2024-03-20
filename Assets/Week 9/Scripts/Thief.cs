@@ -8,44 +8,33 @@ public class Thief : Villager
     public Transform spawnPointLeft;
     public Transform spawnPointRight;
 
-    Vector3 dashPosition;
-    public Vector3 dashDistance;
-    public float baseSpeed;
-    bool dash;
+    public float dashSpeed;
+    Coroutine dashing;
 
-    protected override void Start()
+    IEnumerator Dash()
     {
-        base.Start();
-        dash = false;
-        baseSpeed = speed;
-    }
-
-    protected override void FixedUpdate()
-    {
-        
-        if (dash)
+        speed += dashSpeed;
+        while (speed > baseSpeed)
         {
-            speed = 10;
-            movement = destination - (Vector2) transform.position;
-
-            if (movement.magnitude < 0.1) 
-            {
-                dash = false;
-                speed = baseSpeed;
-            }
+            yield return null;
         }
-        base.FixedUpdate();
+        base.Attack();
+        yield return new WaitForSeconds(0.1f);
+        Instantiate(daggerPrefab, spawnPointLeft.position, spawnPointLeft.rotation);
+        yield return new WaitForSeconds(0.1f);
+        Instantiate(daggerPrefab, spawnPointRight.position, spawnPointRight.rotation);
     }
 
     protected override void Attack()
     {
-        
-        dash = true;
-        destination = destination = Camera.main.ScreenToWorldPoint(Input.mousePosition); // updates on right clicks for this attack only.
-        base.Attack();
-        Instantiate(daggerPrefab, spawnPointLeft.position, spawnPointLeft.rotation);
-        Instantiate(daggerPrefab, spawnPointRight.position, spawnPointRight.rotation);
+       destination = Camera.main.ScreenToWorldPoint(Input.mousePosition); // updates on mouse clicks.
+       if (dashing != null)
+        {
+            StopCoroutine(dashing);
+        }
+        dashing = StartCoroutine(Dash());
     }
+
     public override ChestType CanOpen()
     {
         return ChestType.Thief;

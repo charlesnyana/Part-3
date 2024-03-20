@@ -6469,8 +6469,7 @@ MonoBehaviour:
   daggerPrefab: {fileID: 3871564979539789689, guid: 1a029d589283c354c8953e09188a499e, type: 3}
   spawnPointLeft: {fileID: 1566193631}
   spawnPointRight: {fileID: 785766589}
-  dashDistance: {x: 0, y: 0, z: 0}
-  baseSpeed: 0
+  dashSpeed: 10
 --- !u!212 &5192610755699568078
 SpriteRenderer:
   m_ObjectHideFlags: 0
