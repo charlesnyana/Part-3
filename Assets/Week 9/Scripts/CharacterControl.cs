@@ -14,6 +14,9 @@ public class CharacterControl : MonoBehaviour
     public TMP_Dropdown selector;
     public List<Villager> villagerList;
 
+    public Slider sizeSlider;
+    public Vector2 baseScale;
+
     private void Start()
     {
         typeText = textUI.GetComponent<TextMeshProUGUI>();
@@ -33,9 +36,19 @@ public class CharacterControl : MonoBehaviour
         typeText.text = villager.GetType().ToString(); //added Kit's reccommendation from in-class assessment
     }
     
-    public void OnValueChanged(int index)
+    public void OnDropdownChanged(int index)
     {
         Debug.Log(selector.options[index].text);
         SetSelectedVillager(this.villagerList[index]);
+    }
+
+    public void OnValueChanged(Single value)
+    {
+        if (villagerList != null)
+        {
+            SelectedVillager.transform.localScale = baseScale * value;
+            Debug.Log(SelectedVillager + " is scaled down to: " + sizeSlider.value);
+        }
+        
     }
 }
