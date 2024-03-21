@@ -1,13 +1,18 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CharacterControl : MonoBehaviour
 {
     public GameObject textUI;
     static TextMeshProUGUI typeText;
+
+    public TMP_Dropdown selector;
+    public List<Villager> villagerList;
 
     private void Start()
     {
@@ -28,4 +33,9 @@ public class CharacterControl : MonoBehaviour
         typeText.text = villager.GetType().ToString(); //added Kit's reccommendation from in-class assessment
     }
     
+    public void OnValueChanged(int index)
+    {
+        Debug.Log(selector.options[index].text);
+        SetSelectedVillager(this.villagerList[index]);
+    }
 }
