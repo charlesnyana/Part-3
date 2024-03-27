@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class FlightControl : MonoBehaviour
 {
@@ -8,6 +9,13 @@ public class FlightControl : MonoBehaviour
     public float speed = 5;
     public float turningSpeedReduction = 0.75f;
     Coroutine coroutine;
+
+    public Button straight;
+    public Button left;
+    public Button hardLeft;
+    public Button right;
+    public Button hardRight;
+
 
     public void MakeTurn(float turn)
     {
