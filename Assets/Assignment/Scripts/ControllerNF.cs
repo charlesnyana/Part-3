@@ -20,6 +20,8 @@ public class ControllerNF : MonoBehaviour
     // Variable to track active crops
     public List<Crop> cropList;
     public TMP_Dropdown cropSelect;
+
+    public Button WaterPlant;
     void Start()
     {
         nightVal = 1;
@@ -39,6 +41,14 @@ public class ControllerNF : MonoBehaviour
         {
             warning.SetActive(true);
         } else warning.SetActive(false); 
+
+        if (activeCrop == null)
+        {
+            WaterPlant.interactable = false;
+        } else
+        {
+            WaterPlant.interactable = true;
+        }
     }
     public static Crop activeCrop { get; private set; }
     public static void setActiveCrop(Crop crop)
@@ -73,6 +83,17 @@ public class ControllerNF : MonoBehaviour
     {
         nightVal++;
         nightTrack.text = "Night: " + nightVal; //prints new night value
+
+        foreach (Crop crop in cropList)
+        {
+            crop.newNight();
+        }
+        activeCrop = null;
+    }
+
+    public void waterCropBtn()
+    {
+        Crop.watering = true;
     }
 
     public void OnDropdownChanged(int index)
