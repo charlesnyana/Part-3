@@ -10,11 +10,17 @@ public class Crop : MonoBehaviour
 {
     TextMeshProUGUI cropNameUI;
     Image wateredIndicator;
+    SpriteRenderer sr;
 
     protected bool isSelected;
+    Color selectedColor;
+    public Color unSelectedColor;
 
     protected string cropName = "Crop";
     float cropAge;
+
+    public List<Sprite> cropPhases;
+    int cropStage;
 
     float startNightVal;
 
@@ -25,6 +31,10 @@ public class Crop : MonoBehaviour
     {
         cropNameUI = GetComponentInChildren<TextMeshProUGUI>();
         wateredIndicator = GetComponentInChildren<Image>();
+        sr = GetComponent<SpriteRenderer>();
+        cropStage = 0;
+        sr.sprite = cropPhases[cropStage];
+        selectedColor = sr.color;
         wateredIndicator.enabled = false;
         Active(false);
 
@@ -41,6 +51,11 @@ public class Crop : MonoBehaviour
             StartCoroutine(waterCrop());
             watering = false;
         }
+
+        if (!isSelected)
+        {
+            sr.color = unSelectedColor;
+        } else sr.color = selectedColor;
     }
 
     public void newNight()
