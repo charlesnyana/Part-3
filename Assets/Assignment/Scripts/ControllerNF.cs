@@ -15,6 +15,8 @@ public class ControllerNF : MonoBehaviour
     public TextMeshProUGUI nightTrack;
     public static float nightVal { get; private set; }
 
+    // Variable to track active crops
+    public List<Crop> cropList;
     void Start()
     {
         nightVal = 1;
