@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEditor;
+using Unity.VisualScripting;
 
 public class ControllerNF : MonoBehaviour
 {
@@ -17,12 +19,15 @@ public class ControllerNF : MonoBehaviour
 
     // Variable to track active crops
     public List<Crop> cropList;
+    public TMP_Dropdown cropSelect;
     void Start()
     {
         nightVal = 1;
         thirstVal = 50;
         nightTrack.text = "Night: " + nightVal;
     }
+
+ 
 
     // Update is called once per frame
     void Update()
@@ -34,6 +39,17 @@ public class ControllerNF : MonoBehaviour
         {
             warning.SetActive(true);
         } else warning.SetActive(false); 
+    }
+    public static Crop activeCrop { get; private set; }
+    public static void setActiveCrop(Crop crop)
+    {
+        if (activeCrop != null)
+        {
+            activeCrop.Active(false);
+        }
+        activeCrop = crop;
+        activeCrop.Active(true);
+        Debug.Log("Active crop is " +  activeCrop);
     }
 
     //this function runs when called by the Sate Thirst button
@@ -57,5 +73,10 @@ public class ControllerNF : MonoBehaviour
     {
         nightVal++;
         nightTrack.text = "Night: " + nightVal; //prints new night value
+    }
+
+    public void OnDropdownChanged(int index)
+    {
+        setActiveCrop(this.cropList[index]);
     }
 }

@@ -3,17 +3,25 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEditor;
 
 public class Crop : MonoBehaviour
 {
     TextMeshProUGUI cropName;
     Image wateredIndicator;
 
-    private void Start()
+    protected bool isSelected;
+
+    protected private void Start()
     {
         cropName = GetComponentInChildren<TextMeshProUGUI>();
-        Debug.Log(cropName.text);
         wateredIndicator = GetComponentInChildren<Image>();
         wateredIndicator.enabled = false;
+        Active(false);
+    }
+
+    public void Active(bool value)
+    {
+        isSelected = value;
     }
 }
