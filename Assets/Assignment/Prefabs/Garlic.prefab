@@ -52,6 +52,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 9b41ad136cb86bf41b82268b74f90886, type: 3}
   - {fileID: 21300000, guid: 4c5f759019fd01f449e60871b1db37e0, type: 3}
   - {fileID: 21300000, guid: aed8ce0a6fdeefb46b9bd694c53440f2, type: 3}
+  wiltedStage: {fileID: 21300000, guid: ec085e3a027639a4ba4a13d964dbd095, type: 3}
 --- !u!212 &4490996736301258374
 SpriteRenderer:
   m_ObjectHideFlags: 0

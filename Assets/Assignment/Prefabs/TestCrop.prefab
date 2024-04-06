@@ -358,6 +358,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe26e46f80789094197b08625f89de4e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  unSelectedColor: {r: 0, g: 0, b: 0, a: 0}
+  wiltedColor: {r: 0.3679245, g: 0.19095266, b: 0.12634388, a: 1}
+  cropPhases:
+  - {fileID: 21300000, guid: 5e6da3c2a8cbe4349b4e87d19df973a9, type: 3}
+  - {fileID: 21300000, guid: 30ae0cdcfb96a7140b11d299fd00c589, type: 3}
+  - {fileID: 21300000, guid: 1400552ce618fc244a5ebb6522750330, type: 3}
+  - {fileID: 21300000, guid: ba33c8ada4a5c504d9e9a1f728eacbdf, type: 3}
+  wiltedStage: {fileID: 21300000, guid: ed78b4765291c654eb12fbfc8c379440, type: 3}
 --- !u!212 &5441419975968059794
 SpriteRenderer:
   m_ObjectHideFlags: 0

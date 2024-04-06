@@ -22,8 +22,15 @@ public class ControllerNF : MonoBehaviour
     public TMP_Dropdown cropSelect;
 
     public Button WaterPlant;
+
+    public GameObject ScreenFader;
+    SpriteRenderer FaderSR;
+    public Color clear;
+    public Color full;
+    public AnimationCurve fadeCurve;
     void Start()
     {
+        FaderSR = ScreenFader.GetComponent<SpriteRenderer>();
         nightVal = 1;
         thirstVal = 50;
         nightTrack.text = "Night: " + nightVal;
@@ -81,14 +88,44 @@ public class ControllerNF : MonoBehaviour
     //This function moves the night value forward which is referenced by the crops later
     public void passNight()
     {
+        StartCoroutine(nightFade()); 
+    }
+
+    IEnumerator nightFade()
+    {
+        FaderSR.color = clear;
+
+        ScreenFader.SetActive(true);
+        while (FaderSR.color != full)
+        {
+            float interpolation = 12*fadeCurve.Evaluate(2);
+            FaderSR.color = Color.Lerp(FaderSR.color, full, interpolation *Time.deltaTime);         
+            yield return null;
+        }
+        yield return new WaitForSeconds(1);
+        yield return StartCoroutine(endNight());
+
+        while (FaderSR.color != clear)
+        {
+            float interpolation = 12*fadeCurve.Evaluate(2);
+            FaderSR.color = Color.Lerp(FaderSR.color, clear, interpolation * Time.deltaTime);
+            yield return null;
+        }
+        ScreenFader.SetActive(false);
+        
+    }
+    IEnumerator endNight()
+    {
         nightVal++;
         nightTrack.text = "Night: " + nightVal; //prints new night value
+        Thirstier(20);
 
         foreach (Crop crop in cropList)
         {
             crop.newNight();
         }
         activeCrop = null;
+        yield return null;
     }
 
     public void waterCropBtn()
