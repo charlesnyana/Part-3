@@ -66,7 +66,6 @@ public class ControllerNF : MonoBehaviour
         }
         activeCrop = crop;
         activeCrop.Active(true);
-        Debug.Log("Active crop is " +  activeCrop);
     }
 
     //this function runs when called by the Sate Thirst button. Also combined Thirstier function prior into this and just input a negative value to make it more efficient.

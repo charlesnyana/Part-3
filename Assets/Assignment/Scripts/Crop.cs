@@ -8,9 +8,9 @@ using Unity.VisualScripting;
 
 public class Crop : MonoBehaviour
 {
-    TextMeshProUGUI cropNameUI;
-    Image wateredIndicator;
-    SpriteRenderer sr;
+    protected TextMeshProUGUI cropNameUI;
+    protected Image wateredIndicator;
+    protected SpriteRenderer sr;
 
     protected bool isSelected;
     Color selectedColor;
@@ -18,13 +18,15 @@ public class Crop : MonoBehaviour
     public Color wiltedColor;
 
     protected string cropName = "Crop";
-    float cropAge;
+    protected float cropAge;
     protected int maxStage = 4;
 
     public List<Sprite> cropPhases;
-    int cropStage;
+    protected int cropStage;
     public Sprite wiltedStage;
-    bool wilted = false;
+    protected bool wilted = false;
+
+    Button resetCrop;
 
     float startNightVal;
 
@@ -37,6 +39,8 @@ public class Crop : MonoBehaviour
         cropNameUI = GetComponentInChildren<TextMeshProUGUI>();
         wateredIndicator = GetComponentInChildren<Image>();
         sr = GetComponent<SpriteRenderer>();
+        resetCrop = GetComponentInChildren<Button>();
+        resetCrop.interactable = false;
         
         //Establishes starting point for growth
         cropStage = 0;
@@ -52,10 +56,11 @@ public class Crop : MonoBehaviour
     protected virtual void Update()
     {
         cropAge = ControllerNF.nightVal - startNightVal; // calculates how long the crop has been around
+        
 
         if (watering && isSelected) //water crop button retuns watering = true, this watches for the change in Controller
         {
-            StartCoroutine(waterCrop());
+            StartCoroutine(WaterCrop());
             watering = false;
         }
 
@@ -63,37 +68,46 @@ public class Crop : MonoBehaviour
         {
             sr.color = unSelectedColor;
         } else sr.color = selectedColor;
+
+        if (cropStage >= maxStage || wilted) //if they reach most growth and continues to be watered
+        {
+            resetCrop.interactable = true;
+            if (!wilted)cropNameUI.text = "Grown " + cropName;
+        } else
+        {
+            resetCrop.interactable = false;
+        }
     }
 
     IEnumerator growingConditions()
     {
-        if (wilted == false) StartCoroutine (growth());
+        if (wilted == false) StartCoroutine (Growth());
         yield return new WaitForSeconds(1);
-        Debug.Log(cropName + " is ready for next night.");          
+        //Debug.Log(cropName + " is ready for next night.");          
     }
 
     protected virtual 
-        IEnumerator growth()
+        IEnumerator Growth()
         {
-        Debug.Log(cropName + " conditions: watered-" + watered + " cropStage-"+cropStage+ " wilted-"+wilted);
+        //Debug.Log(cropName + " conditions: watered-" + watered + " cropStage-"+cropStage+ " wilted-"+wilted);
             if (wateredIndicator.enabled == true && cropStage <= maxStage && wilted == false)
             {
                 cropStage++;
                 sr.sprite = cropPhases[cropStage];
             } else
                 {
-                    StartCoroutine(wilting());
+                    StartCoroutine(Wilting());
                 }
             yield return null;
         }
-    IEnumerator wilting()
+    protected IEnumerator Wilting()
     {
         sr.sprite = wiltedStage;
         sr.color = wiltedColor;
         wilted = true;
-        cropName = "Wilted";
-        cropNameUI.text = cropName;
+        cropNameUI.text = "Wilted";
         Debug.Log(cropName + " has wilted. It has lived: "+cropAge+" days");
+        resetCrop.interactable = true;
 
         yield return null;
     }
@@ -105,15 +119,30 @@ public class Crop : MonoBehaviour
         isSelected = false;
         watered = false;
         wateredIndicator.enabled = false;
-        cropAge++;
         Active(false);
     }
 
-    protected virtual IEnumerator waterCrop() //coroutine to water crop. 
+    protected virtual IEnumerator WaterCrop() //coroutine to water crop. 
     {
         watered = true;
         wateredIndicator.enabled = true;
-        Debug.Log(cropName+": is watered");
+        yield return null;
+    }
+    public void resetCropBtn()
+    {
+        StartCoroutine(ResetCrop());
+    }
+
+    IEnumerator ResetCrop()
+    {
+        cropStage = 0;
+        sr.sprite = cropPhases[cropStage];
+        selectedColor = sr.color; //Takes reference for what sprite is supposed to look when selected.
+        wateredIndicator.enabled = false; //turns off watered indicator.
+        wilted = false;
+        
+        cropNameUI.text = cropName;
+        startNightVal = ControllerNF.nightVal; // sets the Night value of the crop's instantiation
         yield return null;
     }
 
