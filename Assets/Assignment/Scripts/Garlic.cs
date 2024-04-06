@@ -9,4 +9,9 @@ public class Garlic : Crop
         cropName = "Garlic";
         base.Start();
     }
+    protected override IEnumerator waterCrop()
+    {
+        ControllerNF.fillThirst(-5);
+        return base.waterCrop();
+    }
 }

@@ -69,20 +69,18 @@ public class ControllerNF : MonoBehaviour
         Debug.Log("Active crop is " +  activeCrop);
     }
 
-    //this function runs when called by the Sate Thirst button
+    //this function runs when called by the Sate Thirst button. Also combined Thirstier function prior into this and just input a negative value to make it more efficient.
     public static void fillThirst (float value)
     {
         thirstVal += value;
         thirstVal = Mathf.Clamp(thirstVal, 0, 100);
+
         Debug.Log("Thirst val updated to: " + thirstVal);
     }
 
-    //this function runs when Next Night button is called to decrease thirstVal and will be called by Bloodroot plant later
-    public static void Thirstier(float value)
+    public IEnumerator thirstPulse()
     {
-        thirstVal -= value;
-        thirstVal =  Mathf.Clamp(thirstVal, 0, 100);
-        Debug.Log("Thirst val updated to: " + thirstVal);
+        yield return null;
     }
 
     //This function moves the night value forward which is referenced by the crops later
@@ -118,7 +116,7 @@ public class ControllerNF : MonoBehaviour
     {
         nightVal++;
         nightTrack.text = "Night: " + nightVal; //prints new night value
-        Thirstier(20);
+        fillThirst(-15);
 
         foreach (Crop crop in cropList)
         {

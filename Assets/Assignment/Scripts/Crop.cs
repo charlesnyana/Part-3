@@ -109,7 +109,7 @@ public class Crop : MonoBehaviour
         Active(false);
     }
 
-    IEnumerator waterCrop() //coroutine to water crop. 
+    protected virtual IEnumerator waterCrop() //coroutine to water crop. 
     {
         watered = true;
         wateredIndicator.enabled = true;
